@@ -1,0 +1,22 @@
+{
+  "name": "shroom-tunes",
+  "version": "1.0.0",
+  "description": "rad shroom bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Urban-Forest-Studios/Shroom-Tunes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Urban-Forest-Studios/Shroom-Tunes/issues"
+  },
+  "homepage": "https://github.com/Urban-Forest-Studios/Shroom-Tunes#readme",
+  "dependencies": {
+    "discord.js": "^14.7.1"
+  }
+}
