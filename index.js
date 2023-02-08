@@ -1,47 +1,68 @@
-// Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits } = require('discord.js');
+require('dotenv').config();
 const { token } = require('./config.json');
 
-// Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const {REST} = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+const { Client, GatewayIntentBits, Collection, Events } = require('discord.js');
+const { Player } = require("discord-player")
 
-// When the client is ready, run this code (only once)
-// We use 'c' for the event parameter to keep it separate from the already defined 'client'
-client.once(Events.ClientReady, c => {
-	console.log(`Ready! Logged in as ${c.user.tag}`);
+const fs = require('fs');
+const path = require('path');
+
+
+const client = new Client({
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates]
 });
 
-client.on('interactionCreate', async interaction => {
-    if (!interaction.isCommand()) return;
-    const {commandName} = interaction;
-    let ni = "This command isn't implemented yet!"; //Not Implemented
+// List of all commands
+const commands = [];
+client.commands = new Collection();
 
-    if(commandName === 'ping') {
-        await interaction.reply(`Hey hey! Latency is ${Date.now() - interaction.createdTimestamp}ms, and the API Latency is ${Math.round(client.ws.ping)}ms.`)
+//const commandsPath = path.join("/Users/luca/Documents/GitHub/Shroom-Tunes", "commands"); // E:\yt\discord bot\js\intro\commands
+const commandsPath = path.join("/Users/luca/Documents/GitHub/Shroom-Tunes/", 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+	// Set a new item in the Collection with the key as the command name and the value as the exported module
+	if ('data' in command && 'execute' in command) {
+		client.commands.set(command.data.name, command);
+	} else {
+		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+	}
+}
+
+
+
+//commands.map(command => command.toJSON());
+// Add the player on the client
+client.player = new Player(client, {
+    ytdlOptions: {
+        quality: "highestaudio",
+        highWaterMark: 1 << 25
     }
-    if(commandName === "add"){
-        await interaction.reply(ni)
-    }
-    if (commandName === "del"){
-        await interaction.reply(ni)
-    }
-    if (commandName === "loop"){
-        await interaction.reply(ni)
-    }
-    if (commandName === "shuffle"){
-        await interaction.reply(ni)
-    }
-    if (commandName === "pause"){
-        await interaction.reply(ni)
-    }
-    if (commandName === "play"){
-        await interaction.reply(ni)
-    }
-    if (commandName === "queue"){
-        await interaction.reply(ni)
-    }
+})
+
+client.on("ready", () => {
+    console.log('ready')
 });
 
-// Log in to Discord with your client's token
+client.on(Events.InteractionCreate, async interaction => {
+	if (!interaction.isChatInputCommand()) return;
+
+	const command = interaction.client.commands.get(interaction.commandName);
+
+	if (!command) {
+		console.error(`No command matching ${interaction.commandName} was found.`);
+		return;
+	}
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+	}
+});
 client.login(token);
-
