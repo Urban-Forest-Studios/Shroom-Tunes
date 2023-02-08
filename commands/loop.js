@@ -13,7 +13,7 @@ module.exports = {
 		)
         .addSubcommand(subcommand =>
 			subcommand
-				.setName("songs")
+				.setName("song")
 				.setDescription("loops the current song")
 		)
         .addSubcommand(subcommand =>

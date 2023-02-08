@@ -3,7 +3,7 @@ const { token } = require('./config.json');
 
 const {REST} = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { Client, GatewayIntentBits, Collection, Events, EmbedBuilder, Embed } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, Events, EmbedBuilder } = require('discord.js');
 const { Player, RepeatMode } = require("discord-player")
 
 const fs = require('fs');
@@ -30,13 +30,13 @@ client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
 	const {commandName} = interaction;
-    const queue = client.player.getQueue(interaction.guildId)
 
 	if(commandName === 'ping') {
         await interaction.reply(`Hey hey! Latency is ${Date.now() - interaction.createdTimestamp}ms, and the API Latency is ${Math.round(client.ws.ping)}ms.`)
     }
 
     if(commandName == 'exit'){
+        const queue = client.player.getQueue(interaction.guildId)
 		if (!queue)
 		{
 			await interaction.reply("There are no songs in the queue")
@@ -49,6 +49,7 @@ client.on(Events.InteractionCreate, async interaction => {
         await interaction.reply("Why you do this to me?")
     }
     if(commandName == 'pause'){
+        const queue = client.player.getQueue(interaction.guildId)
         if (!queue)
 		{
 			await interaction.reply("There are no songs in the queue")
@@ -142,6 +143,7 @@ client.on(Events.InteractionCreate, async interaction => {
         })
     }
     if(commandName == 'queue'){
+        const queue = client.player.getQueue(interaction.guildId)
         // check if there are songs in the queue
         if (!queue || !queue.playing)
         {
@@ -169,6 +171,7 @@ client.on(Events.InteractionCreate, async interaction => {
         })
     }
     if(commandName == 'skip'){
+        const queue = client.player.getQueue(interaction.guildId)
         if(!queue)
         {
             await interaction.reply("There are no songs in the queue");
@@ -190,6 +193,7 @@ client.on(Events.InteractionCreate, async interaction => {
         })
     }
     if(commandName == 'resume'){
+        const queue = client.player.getQueue(interaction.guildId)
         if (!queue)
         {
             await interaction.reply("No songs in the queue");
@@ -202,13 +206,14 @@ client.on(Events.InteractionCreate, async interaction => {
         await interaction.reply("Player has been resumed.")
     }
     if(commandName == 'loop'){
+        const queue = client.player.getQueue(interaction.guildId)
         /*queue.setRepeatMode(2);
         await interaction.reply("queue is now set to loop.")*/
         if (interaction.options.getSubcommand() === "queue"){
             queue.setRepeatMode(2);
             await interaction.reply("queue is now set to loop.")
         }
-        else if (interaction.options.getSubcommand() === "songs"){
+        else if (interaction.options.getSubcommand() === "song"){
             queue.setRepeatMode(1);
             await interaction.reply("song is now set to loop.")
         }
@@ -219,6 +224,7 @@ client.on(Events.InteractionCreate, async interaction => {
         else await interaction.reply('error')
     }
     if(commandName == "shuffle"){
+        const queue = client.player.getQueue(interaction.guildId)
         queue.shuffle(); //why is the method name not capitalized lmfao
         await interaction.reply('queue has been shuffled!')
     }
