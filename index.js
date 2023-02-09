@@ -285,7 +285,7 @@ client.on(Events.InteractionCreate, async interaction => {
         const currentSong = queue.current
 
         // Skip the current song
-		queue.skipTo(0);
+		queue.jump(0)
 
         // Return an embed to the user saying the song has been skipped
         await interaction.reply({
