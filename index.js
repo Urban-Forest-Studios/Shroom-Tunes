@@ -197,7 +197,7 @@ client.on(Events.InteractionCreate, async interaction => {
             //return `${i}) [${song.duration}]\` ${song.title} - <@${song.requestedBy.id}>`
             context.font = '16px sans-serif';
 		    context.fillStyle = '#ffffff';
-		    context.fillText(`${i + 1}) [${song.duration}] ${truncate(song.title, 35)}`, 150, space);
+		    context.fillText(`${truncate(`${i + 1}) [${song.duration}] ${song.title}`, 45)}`, 150, space);
             space += 30;
         })
 
