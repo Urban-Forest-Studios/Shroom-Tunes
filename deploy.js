@@ -1,6 +1,6 @@
 const { REST, Routes } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { token } = require('./config.json');
+const { token, clientID } = require('./config.json');
 
 const commands = [
     new SlashCommandBuilder()
@@ -89,7 +89,7 @@ const rest = new REST({ version: '10' }).setToken(token);
         console.log('Started refreshing application (/) commands.');
 
         await rest.put(
-            Routes.applicationCommands("1072746891382628413"),
+            Routes.applicationCommands(clientID),
             { body: commands },
         );
         console.log('Successfully reloaded application (/) commands.');

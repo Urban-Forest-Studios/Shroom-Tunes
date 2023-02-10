@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { token } = require('./config.json');
+const { token, clientID } = require('./config.json');
 const { version } = require('./version.json');
 const Canvas = require('@napi-rs/canvas');
 const { request } = require('undici');
