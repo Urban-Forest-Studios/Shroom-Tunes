@@ -37,26 +37,7 @@ const commands = [
     new SlashCommandBuilder()
         .setName('play')
         .setDescription('Add a song to the queue.')
-        .addSubcommand(subcommand =>
-			subcommand
-				.setName("song")
-				.setDescription("loops the current queue")
-                .addStringOption(option => option.setName("url").setDescription("the song's url").setRequired(true))
-		)
-        .addSubcommand(subcommand =>
-			subcommand
-				.setName("playlist")
-				.setDescription("loops the current queue")
-                .addStringOption(option => option.setName("url").setDescription("the playlist's url").setRequired(true))
-		)
-        .addSubcommand(subcommand =>
-			subcommand
-				.setName("search")
-				.setDescription("loops the current queue")
-                .addStringOption(option =>
-					option.setName("searchterms").setDescription("search keywords").setRequired(true)
-				)
-		),
+        .addStringOption(option => option.setName("query").setDescription("search keywords").setRequired(true)),
 
     new SlashCommandBuilder()
         .setName('queue')
