@@ -17,13 +17,13 @@
   },
   "homepage": "https://github.com/Urban-Forest-Studios/Shroom-Tunes#readme",
   "dependencies": {
-    "@discord-player/equalizer": "^0.2.0",
-    "@discord-player/extractor": "^4.1.0",
-    "@discord-player/utils": "^0.2.0",
+    "@discord-player/equalizer": "^0.1.4-dev",
+    "@discord-player/extractor": "^4.0.0-dev",
+    "@discord-player/utils": "^0.1.0-dev",
     "@discordjs/opus": "^0.8.0",
     "@discordjs/voice": "^0.14.0",
     "@napi-rs/canvas": "^0.1.34",
-    "discord-player": "^6.0.0",
+    "discord-player": "^6.0.0-dev.2",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "ffmpeg-static": "^5.1.0"
